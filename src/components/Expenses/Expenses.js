@@ -1,8 +1,9 @@
 import { useState } from "react";
 
-import ExpenseItem from "./ExpenseItem";
+import ExpensesChart from "./ExpensesChart";
 import Card from "../UI/Card.js";
 import ExpenseFilter from "./ExpenseFilter";
+import ExpensesList from "./ExpensesList";
 
 import "./Expenses.css";
 
@@ -16,47 +17,47 @@ function Expenses(props) {
     setFilter(newFilter);
   };
 
+  const filteredExpenses = expenses.filter(
+    (expense) => expense.date.getFullYear() === +filter
+  );
+
+  // let expensesOutput = <p>No expenses found!</p>;
+
+  // if (filteredExpenses.length > 0)
+  // expensesOutput = filteredExpenses.map((expense, i) => (
+  //   <ExpenseItem
+  //     key={expense.id}
+  //     title={expense.title}
+  //     amount={expense.amount}
+  //     date={expense.date}
+  //   />
+  // ));
+
   return (
     // ?: Uses 2 way binding as the selected year is used in the filter and in the UI
     <Card className="expenses">
       <ExpenseFilter selected={filter} onFilterChange={filterChangeHandler} />
-
-      {expenses
-        .filter((expense) => {
-          return +expense.date.getFullYear() === +filter;
-        })
-        .map((expense, i) => (
-          <ExpenseItem
-            key={i + 1}
-            title={expense.title}
-            amount={expense.amount}
-            date={expense.date}
-          />
-        ))}
+      <ExpensesChart expenses={filteredExpenses} />
+      <ExpensesList filteredExpenses={filteredExpenses} />
     </Card>
   );
 }
 
 export default Expenses;
 
-/*
-{ <ExpenseItem
-  title={expenses[0].title}
-  amount={expenses[0].amount}
-  date={expenses[0].date}
-/>
-<ExpenseItem
-  title={expenses[1].title}
-  amount={expenses[1].amount}
-  date={expenses[1].date}
-/>
-<ExpenseItem
-  title={expenses[2].title}
-  amount={expenses[2].amount}
-  date={expenses[2].date}
-/>
-<ExpenseItem
-  title={expenses[3].title}
-  amount={expenses[3].amount}
-  date={expenses[3].date}
-/> }*/
+// ?: 1) Using ternary expression
+
+// ?: 2) Setting a default value and reassigning
+
+// ?: 3) Using short circuiting (using && ||)
+// {/* {filteredExpenses.length === 0 && <p>No expenses found!</p>} */}
+
+// {/* {filteredExpenses.length === 0 ||
+//   filteredExpenses.map((expense, i) => (
+//     <ExpenseItem
+//       key={expense.id}
+//       title={expense.title}
+//       amount={expense.amount}
+//       date={expense.date}
+//     />
+//   ))} */}

@@ -7,6 +7,7 @@ const ExpenseForm = (props) => {
   const [enteredTitle, setEnteredTitle] = useState("");
   const [enteredAmount, setEnteredAmount] = useState("");
   const [enteredDate, setEnteredDate] = useState("");
+  // const [addingExpense, setAddingExpense] = useState(false);
 
   // ?:  1 State
   // const [enteredData, setEnteredData] = useState({
@@ -42,18 +43,28 @@ const ExpenseForm = (props) => {
 
     const expenseData = {
       title: enteredTitle,
-      amount: enteredAmount,
+      amount: +enteredAmount,
       date: new Date(enteredDate),
     };
 
-    // ?: This comes form the parent component
-    props.onSaveExpenseData(expenseData);
+    props.onSaveExpenseData(expenseData); // ?: This comes form the parent component
+    cancelHandler(); // ?: Clears the input fields after submission and closes the form
+  };
 
-    // ?: Clears the input fields after submission
+  const cancelHandler = () => {
+    // setAddingExpense(false);
+    props.onCancel();
     setEnteredTitle("");
     setEnteredDate("");
     setEnteredAmount("");
   };
+
+  // if (!addingExpense)
+  //   return (
+  //     <div>
+  //       <button onClick={() => setAddingExpense(true)}>Add New Expense</button>
+  //     </div>
+  //   );
 
   return (
     <form onSubmit={submitHandler}>
@@ -91,6 +102,9 @@ const ExpenseForm = (props) => {
       </div>
 
       <div className="new-expense__actions">
+        <button onClick={cancelHandler} type="submit">
+          Cancel
+        </button>
         <button type="submit">Add Expense</button>
       </div>
     </form>
